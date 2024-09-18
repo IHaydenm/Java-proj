@@ -23,6 +23,9 @@ public class Appetizers {
         aptop = getapt.nextInt();
             switch (aptop) {
                 case 1:
+                for(int i=0;i<=1;i++){
+                    frenchF = 2;
+                }
                     if (size.equals("small")){
                         frenchF = frenchF-1;
                     }
@@ -45,6 +48,9 @@ public class Appetizers {
                     }
                     break;
                 case 2:
+                for(int i=0;i<=1;i++){
+                    cheeseF = 2;
+                }
                     if (size.equals("small")){
                         cheeseF = cheeseF-1;
                     }
