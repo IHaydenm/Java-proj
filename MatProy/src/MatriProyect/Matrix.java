@@ -22,6 +22,8 @@ public class Matrix {
                 case 1:
                     System.out.println(mymatrx.MatAdder());                    
                     break;
+                case 2:
+                    System.out.println(mymatrx.MaxNumber());
                 default:
                     break;
             }
