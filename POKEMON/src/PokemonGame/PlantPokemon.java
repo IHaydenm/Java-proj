@@ -22,6 +22,5 @@ public class PlantPokemon extends PokemonType{
                 pSize[2] = Size[1];
                 pSize[3] = Size[0];
                 pSize[4] = Size[2];
-
         }   
     }
