@@ -1,5 +1,7 @@
 package FILESTASK;
+import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 public abstract class PokemonSel{
     int maxPokLim;
     /*VARIABLES*/
@@ -65,15 +67,68 @@ public abstract class PokemonSel{
                 System.out.println(pSize[chosenPok]); /*CLEAR AFTER TESTS */
                 System.out.println(fAttack[chosenPok]); /*CLEAR AFTER TESTS */
             }
-        return chosenPokName;
+        return chosenPokName; /*CLEAR AFTER TESTS*/
         }
     public static char GuessWho(){
-        System.out.println("\nCOMENCEMOS!\tPARA ADIVINAR TENDRAS QUE ELEJIR UNA DE LAS SIGUIENTES OPCIONES.\n\n1.NOMBRE DEL POKEMON.\t2.TAMAÑO DEL POKEMON\t3.TIPO DEL POKEMON.\t4.ATAQUE DEL POKEMON\n");
+        /*variables*/
+        int op;
+        /*variables for for attempts and win condition */
+        int guess = 0;
+        int attmps = 5;
+        do{/*THE GAME MUST KEEP GOING UNTIL EITHER THE POKEMON IS GUESSED OR THE USER RUNS OUT OF ATTEMPTS*/
+        System.out.println("\nCOMENCEMOS!\tPARA ADIVINAR TENDRAS QUE ELEJIR UNA DE LAS SIGUIENTES OPCIONES.\tTIENES 5 INTENTOS\n\n1.NOMBRE DEL POKEMON.\t2.TAMAÑO DEL POKEMON\t3.TIPO DEL POKEMON.\t4.ATAQUE DEL POKEMON\n");
+        System.out.println("ESCRIBE EL NUMERO DEL INCISO DE LA OPCION PARA ACCESAR EL MENU DE OPCIONESN\n\nTU OPCION: ");
+        /*READING THE VARIABLE FOR IF CONDITION*/
+        Scanner sc = new Scanner(System.in);
+        op = sc.nextInt();
+        sc.close();
         /*ALL OPTIONS SHOWN IN LISTS*/
-        System.out.println("\nPOKEMON DE FUEGO\na) CHARMANDER\tb) CYNDAQUIL\nc) TORCHIC\td) LITTEN\ne) FUECOCO\n\nPOKEMON DE AGUA\na) SQUIRTLE\tb) TOTODILE\nc) MUDKIP\td) FROAKIE\ne) QUAXIL\n\nPOKEMON DE PLANTA\na) BULBASAUR\tb) CHIKORITA\nc) TREECKO\td) ROWLET\ne) SPRIGATITO");
-        /*NAMES*/
+        /*SWITCH CASE FOR OPTIONS*/
+        switch (op) {
+            case 1: /*OPTION FOR NAMES*/
+            /*FIRE TYPE*/
+            System.out.println("FIRE TYPE\n");
+                for(int i=0;i<5;i++){
+                    System.out.print(fName[i] + (", "));
+                }
+                System.out.println();
+                System.out.println("WATER TYPE\n");
+                for(int i=0;i<5;i++){
+                    System.out.print(wName[i] + (", "));
+                }
+                System.out.println();
+                System.out.println("PLANT TYPE\n");
+                for(int i=0;i<5;i++){
+                    System.out.print(pName[i] + (", "));
+                }
+                System.out.println("\nPARA SELECCIONAR EL POKEMON ESCRIBE SU NOMBRE: ");
+                Scanner sc1 = new Scanner(System.in);/*SAVING THE INPUT OF THE USER*/
+                String pPokeName = sc1.nextLine();
+                String checkPokemonName = pPokeName.toLowerCase();
+                    if(checkPokemonName.equals(chosenPokName)){
+                        System.out.println("El pokemon es " + chosenPokName);
+                    }
+                    else if(!checkPokemonName.equals(chosenPokName)){
+                        System.out.println("El nombre del pokemon elegido no es " + checkPokemonName);
+                        attmps = attmps--; 
+                    }
+                break;
+            case 2: /*OPTION FOR SIZES*/
+                System.out.println("a) PEQUEÑO\tb) MEDIANO\tc) GRANDE");
+                break;
+            case 3:/*OPTION FOR POKEMON TYPE*/
+                System.out.println("a) TIPO FUEGO\tb) TIPO AGUA\t TIPO PLANTA");
+                break;
+            case 4:/*OPTIONS FOR ATTACK TYPES*/
+                System.out.println("a) HYDRO PUMP\nb) SOLAR BEAM\nc) ERUPTION\nd) FLAMETHROWER\ne) AQUA JET\nf) WHIRLPOOL\ng) SYNTHESIS\nh) PETAL DANCE");
+            default:
+                System.out.println("Tu input no fue el correcto. El numero de intentos no se verá afectado. Por favor intenta de nuevo.");
+                break;
+            }
         return ' ';
-    }
+    }while(guess!=1 || attmps!=0);
 }
+}
+
     
 

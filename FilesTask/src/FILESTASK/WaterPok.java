@@ -6,11 +6,11 @@ public class WaterPok extends PokemonSel{
     public WaterPok(int maxPokLim){
         WaterPok.wName = new String[maxPokLim];
         //ASIGNING A NAME FOR EACH POSITION OF WNAME ARRAY
-        wName[0] = "Squirtle";
-        wName[1] = "Totodile";
-        wName[2] = "Mudkip";
-        wName[3] = "Froakie";
-        wName[4] = "Quaxli";
+        wName[0] = "squirtle";
+        wName[1] = "totodile";
+        wName[2] = "mudkip";
+        wName[3] = "froakie";
+        wName[4] = "quaxli";
         //SELECTING THE POWERS EACH POKEMON WILL HAVE
         Random random = new Random();
         int atkNbr = random.nextInt(0, 7);

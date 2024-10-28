@@ -6,11 +6,11 @@ public class PlantPok extends PokemonSel{
     public PlantPok(int maxPokLim){
         PlantPok.pName = new String[maxPokLim];
         //ASIGNING A NAME FOR EACH POSITION OF WNAME ARRAY
-        pName[0] = "Bulbasaur";
-        pName[1] = "Chikorita";
-        pName[2] = "Treecko";
-        pName[3] = "Rowlet";
-        pName[4] = "Sprigatito";
+        pName[0] = "bulbasaur";
+        pName[1] = "chikorita";
+        pName[2] = "treecko";
+        pName[3] = "rowlet";
+        pName[4] = "sprigatito";
         //SELECTING THE POWERS EACH POKEMON WILL HAVE
         Random random = new Random();
         int atkNbr = random.nextInt(0, 7);

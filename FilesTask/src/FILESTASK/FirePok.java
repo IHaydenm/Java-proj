@@ -6,11 +6,11 @@ public class FirePok extends PokemonSel{
     public FirePok(int maxPokLim){
         FirePok.fName = new String[maxPokLim];
         //ASIGNING A NAME FOR EACH POSITION OF FNAME ARRAY
-        fName[0] = "Charmander";
-        fName[1] = "Cyndaquil";
-        fName[2] = "Torchic";
-        fName[3] = "Litten";
-        fName[4] = "Fuecoco";
+        fName[0] = "charmander";
+        fName[1] = "cyndaquil";
+        fName[2] = "torchic";
+        fName[3] = "litten";
+        fName[4] = "fuecoco";
         //SELECTING THE POWERS EACH POKEMON WILL HAVE
         Random random = new Random();
         int atkNbr = random.nextInt(0, 8);
