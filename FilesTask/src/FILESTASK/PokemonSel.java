@@ -19,7 +19,7 @@ public abstract class PokemonSel{
     static String chosenPokName;
     /*variable will be recieving the value of NAME*/
     static String[] pokS = new String[3];{
-        pokS[0] = "pequeño";
+        pokS[0] = "small";
         pokS[1] = "mediano";
         pokS[2] = "grande";
     }
@@ -73,6 +73,7 @@ public abstract class PokemonSel{
     public static char GuessWho(){
         /*variables*/
         int op;
+        String tempNameSpace = " ";
         /*variables for for attempts and win condition */
         int guess = 0;
         int attmps = 5;
@@ -125,7 +126,7 @@ public abstract class PokemonSel{
                         }
                     break;
                 case 2: /*OPTION FOR SIZES*/
-                    System.out.println("a) PEQUEÑO\tb) MEDIANO\tc) GRANDE");
+                    System.out.println("a) SMALL\tb) MEDIANO\tc) GRANDE");
                     System.out.println("\n\nESCRIBE EL TAMAÑO QUE CREES QUE TIENE EL POKEMON: ");
                     Scanner sc2 = new Scanner(System.in);
                     String getPokemonSize = sc2.nextLine();/*SAVING THE INPUT OF THE USER*/
@@ -133,18 +134,65 @@ public abstract class PokemonSel{
                     /*CHECKING SIZE FOR THE FIRE TYPE POKEMONS*/
                     System.out.println("\n\n");
                     for(int i=0;i<5;i++){
-                        if(chosenPokName.equals(fName[i])){/*SEARCHING FOR THE CHOSEN POKEMON SIZE*/
-                                if(fSize[i].equals(checkPokemonSize)){/*IF THE USER IS CORRECT*/
-                                    System.out.println("EL TAMAÑO DEL POKEMON ES " + checkPokemonSize + "ESTOS POKEMON SON LOS QUE RESTAN: ");
-                                    for(int j=0;j<5;j++){
-                                        if(!fSize[i].equals(fSize[j])){
-                                            System.out.println(fName[j] + fSize[j]);/*CLEAR SECOND SECTION AFTER TESTS*/
-                                        }
-                                    }
+                        if (chosenPokName.equals(fName[i])){
+                            tempNameSpace = fSize[i];/*ALOCATING THE SIZE OF THE CHOSEN POKEMON*/
+                        }
+                        else{
+                            continue;
+                        }
+                        }
+                    for(int i=0;i<5;i++){
+                        if (chosenPokName.equals(wName[i])){
+                            tempNameSpace = wSize[i];/*ALOCATING THE SIZE OF THE CHOSEN POKEMON*/
+                        }
+                        else{
+                            continue;
+                        }
+                        }  
+                    for(int i=0;i<5;i++){
+                        if (chosenPokName.equals(pName[i])){
+                            tempNameSpace = pSize[i];/*ALOCATING THE SIZE OF THE CHOSEN POKEMON*/
+                        }
+                        else{
+                            continue;
+                        }
+                        }  
+                        if(checkPokemonSize.equals(tempNameSpace)){/*IF THE USER IS CORRECT*/
+                            System.out.println("EL TAMAÑO DEL POKEMON ES " + checkPokemonSize + " ESTOS POKEMON SON LOS QUE RESTAN: ");
+                            for(int i=0;i<5;i++){
+                                if(!fSize[i].equals(checkPokemonSize)){
+                                    System.out.println(fName[i] + fSize[i]);/*CLEAR SECOND SECTION AFTER TESTS*/
+                                }
+                            }
+                            for(int j=0;j<5;j++){
+                                if(!wSize[j].equals(checkPokemonSize)){
+                                    System.out.println(wName[j] + wSize[j]);/*CLEAR SECOND SECTION AFTER TESTS*/
+                                }
+                            }
+                            for(int k=0;k<5;k++){ 
+                                if(!pSize[k].equals(checkPokemonSize)){
+                                    System.out.println(pName[k] + pSize[k]);/*CLEAR SECOND SECTION AFTER TESTS*/
+                                }
                             }
                         }
-                        }
-                        
+                    else{/*USER IS WRONG*/
+                            System.out.println("EL TAMAÑO " + checkPokemonSize + " NO ES LA DEL POKEMON POR ADIVINAR.\n\n ESTOS POKEMON SON LOS QUE RESTAN: ");
+                            for(int i=0;i<5;i++){
+                                if(!fSize[i].equals(checkPokemonSize)){
+                                    System.out.println(fName[i] + fSize[i]);/*CLEAR SECOND SECTION AFTER TESTS*/
+                                }
+                            }
+                            for(int j=0;j<5;j++){
+                                if(!wSize[j].equals(checkPokemonSize)){
+                                System.out.println(wName[j] + wSize[j]);/*CLEAR SECOND SECTION AFTER TESTS*/
+                                }
+                            }
+                            for(int k=0;k<5;k++){
+                                if(!pSize[k].equals(checkPokemonSize)){
+                                System.out.println(pName[k] + pSize[k]);/*CLEAR SECOND SECTION AFTER TESTS*/
+                                }
+                            }
+                            }
                     break;
                 case 3:/*OPTION FOR POKEMON TYPE*/
                     System.out.println("a) TIPO FUEGO\tb) TIPO AGUA\t TIPO PLANTA");
