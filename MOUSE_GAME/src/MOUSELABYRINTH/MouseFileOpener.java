@@ -65,7 +65,6 @@ public class MouseFileOpener {
                                 System.out.println("The string of mr sex is " + fileDataReading);
                                 limit++;
                             }
-                           
                 }
             return ' ';
     }
