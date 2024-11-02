@@ -58,9 +58,40 @@ public class MouseLabyrinth {
                     }
                 }
             }/*MAP PATHFINDER MAP PATHFINDER MAP PATHFINDER MAP PATHFINDER MAP PATHFINDER MAP PATHFINDER MAP PATHFINDER */
+            boolean hasWon = false; /*VARIABLE THAT WILL OVERWRITE THE MOUSE SPAWNPOINT*/
+            while(hasWon!=true){
+                for(int j=spC;j<columns;j++){
+                    if(aviableMap[spR+1][j]=='0'){
+                        System.out.println("IM MOVING TO: (" + (spR+1) + ")" +  "(" + j + ")");
+                        spR++;
+                        /*DELETE AFTER TESTS*/
+                        spC = j;
+                        j=0;
+                        System.out.println("THIS IS THE ROW VALUE WHERE THE FINDER SITS AFTER ANALIZIS: " + spR);
+                        System.out.println("THIS IS THE COLUMN VALUE WHERE THE FINDER SITS AFTER ANALIZIS: " + spC);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else if(aviableMap[spR+1][j]=='1');
+                    {
+                        System.out.println("I CANNOT MOVE TO: (" + (spR+1) + ")" +  "(" + j + ")");
+                        /*DELETE AFTER TESTS*/
+                        System.out.println("THIS IS THE ROW VALUE WHERE THE FINDER SITS AFTER ANALIZIS: " + spR);
+                        System.out.println("THIS IS THE COLUMN VALUE WHERE THE FINDER SITS AFTER ANALIZIS: " + spC);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
             
             if(aviableMap[spR][spC]==for0){
-                
+
             }
         return " ";
     }
