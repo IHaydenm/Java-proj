@@ -14,6 +14,7 @@ public class MouseLabyrinth {
     char for0 = '0';
     char for1 = '1';
     char forF = 'F';
+    char forA = 'A';
     int fileBorder;
     char[][] aviableMap;
     char[] gettingChar;
@@ -99,18 +100,19 @@ public class MouseLabyrinth {
                     System.out.println("LLEGUE A LA META");
                 }
                 /*SAVING THE VALUE OF THE DIFERENT TANGENTS THE FINDER CAN TAKE*/
-                else if((aviableMap[spR][spC+1]==for0) && (aviableMap[spR][spC-1]==for0)){
+                else if(((aviableMap[spR][spC+1]==for0) && (aviableMap[spR][spC-1]==for0)) || ((aviableMap[spR-1][spC]==for0) && (aviableMap[spR][spC+1]==for0)) || ((aviableMap[spR+1][spC]==for0) && (aviableMap[spR][spC+1]==for0)) || ((aviableMap[spR-1][spC]==for0) && (aviableMap[spR][spC-1]==for0)) || ((aviableMap[spR-1][spC]==for0) && (aviableMap[spR][spC+1]==for0))){
                     System.out.println("ESTOY GUARDANDO EL ESTA POSICION PARA REGRESAR A ELLA SI LO NECESITO!");
                     tempSpC = spC;
                     tempSpR = spR;
+                    System.err.println("EL VALOR DE LA POSICION DONDE EL PROGRAMA DECIDIO GUARDAR SU POSICION: " + tempSpC + " " + tempSpR);
                     tempArrayTraverser = arrayTraverser; /*SAVING HOW MANY ITEMS ARE INSIDE THE ARRAY ARRAYTRAVERSER IN CASE THE PATH THE FINDER TAKES IS NOT THE CORRECT ONE*/
                     movingToTheRight();
                 }
-                else if(resetCounterD==3){
+                else if(resetCounterD==10){
                     resetFunc();
                 }
                 /*IF THE FINDER CANNOT MOVE DOWNWARDS*/
-                else if(aviableMap[spR+1][spC]==for1){
+                else if(aviableMap[spR+1][spC]==for1 || aviableMap[spR+1][spC]==forA){
                     resetCounterD=0;
                     resetCounterR++;
                     System.out.println("NO PUDE MOVERME HACIA ABAJO INTENTARE MOVERME HACIA OTRA POSICION. ESTOY BUSCANDO OTRO CAMINO");
@@ -128,11 +130,11 @@ public class MouseLabyrinth {
                         movingToTheRight();
                         hasWon = true;
                     }
-                    else if(resetCounterR==3){
+                    else if(resetCounterR==10){
                         resetFunc();
                     }
                     /*IF THE FINDER CANNOT GO TO THE RIGHT*/
-                    else if(aviableMap[spR][spC+1]==for1){
+                    else if(aviableMap[spR][spC+1]==for1 || aviableMap[spR][spC+1]==forA){
                         resetCounterR = 0;
                         resetCounterL++;
                         System.out.println("NO PUDE MOVERME HACIA LA DERECHA INTENTARE MOVERME HACIA OTRA POSICION. ESTOY BUSCANDO OTRO CAMINO");
@@ -150,11 +152,11 @@ public class MouseLabyrinth {
                             movingToTheLeft();
                             hasWon = true;
                         }
-                        else if(resetCounterL==3){
+                        else if(resetCounterL==10){
                             resetFunc();
                         }
                         /*IF THE FINDER CANNOT GO TO THE LEFT*/
-                        else if(aviableMap[spR][spC-1]==for1){
+                        else if(aviableMap[spR][spC-1]==for1 || aviableMap[spR][spC-1]==forA){
                             resetCounterL = 0;
                             System.out.println("NO PUDE MOVERME HACIA LA IZQUIERDA INTENTARE MOVERME HACIA OTRA POSICION. ESTOY BUSCANDO OTRO CAMINO");
                             try{
@@ -171,15 +173,26 @@ public class MouseLabyrinth {
                                 movingUpwards();
                                 hasWon = true;
                             }
-                            else if(aviableMap[spR-1][spC]==for1){
+                            else if(aviableMap[spR-1][spC]==for1 || aviableMap[spR-1][spC]==forA){
                                 resetFunc();
+                            }
+                            else{
+                                continue;
                             }      
-                        }   
-                    }   
+                        }  
+                        else{
+                            continue;
+                        } 
+                    } 
+                    else{
+                        continue;
+                    }  
+                }else{
+                    continue;
                 }
             }
+            int k = 1;
             for(String correctPathStrings : correctPath){
-                int k = 1;
                 System.out.println(k + ". " + correctPathStrings);
                 k++;
             }
@@ -240,6 +253,7 @@ public void resetFunc(){
     System.out.println("PARECE QUE ME QUEDE SIN CAMINO REGRESARE A UN PUNTO DONDE TENIA DOS OPCIONES");
     spC = tempSpC;
     spR = tempSpR;
+    System.err.println("EL VALOR DE LA POSICION DONDE EL PROGRAMA DECIDIO GUARDAR SU POSICION: " + spC + " " + spR);
     for(int i = (tempArrayTraverser+1);i<correctPath.length;i++){
         correctPath[i] = " ";
     }
