@@ -26,9 +26,18 @@ public class Mouse {
                         System.out.println("EL ARCHIVO EXISTE");
                         /*FILE READER FOR VARIABLE BUFREAD*/
                         FileReader ReadingFile = new FileReader(inFileMap);
-                        BufferedReader bufRead = new BufferedReader(ReadingFile); 
-                        
+                        BufferedReader bufRead = new BufferedReader(ReadingFile);
                         String readFile = " ";
+                        System.out.print("Loading preview of the map");
+                        for(int p=0;p<3;p++){
+                            System.out.print(".");
+                        try {
+                            Thread.sleep(800);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println("\n");
                         for(int i=0; i < inFileMap.length();i++){
                             if(readFile==null){
                                 break;
@@ -37,6 +46,11 @@ public class Mouse {
                                 readFile = bufRead.readLine();
                                 System.out.println(readFile);
                                 rows = rows + 1;
+                                try {
+                                    Thread.sleep(800);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }         
                         }
                         FileReader tempReaderForColumns = new FileReader(inFileMap);
@@ -47,16 +61,16 @@ public class Mouse {
                     }
                         else{/*SPECIFIED FILE DOES NOT EXIST */
                             System.out.println("EL ARCHIVO NO EXISTE.");
+                            System.exit(0);
                          }
                         int tRows = rows - 1;
-                        System.out.println(tRows + " " + columns);
                         /*THIS CONVERTS DATA FORM THE FILE TO STRING*/
                         /*FILE READER FOR VARIABLE BUFREADPRE1*/
                         FileReader ReadingFilePre1 = new FileReader(inFileMap);
                         BufferedReader bufReadPrel = new BufferedReader(ReadingFilePre1);
                         List <String> numbers = new ArrayList <String>(); 
                         int limit = 0;
-                        System.out.println("The string from the file: ");
+                        System.out.println("Este es el mapa cargado: ");
                         while(limit<tRows){
                             String tempLineReader = " ";
                                 tempLineReader = bufReadPrel.readLine().toString();
@@ -69,6 +83,5 @@ public class Mouse {
                             MouseLabyrinth myLabyrinth = new MouseLabyrinth(rows, columns);
                             System.out.println(myLabyrinth.MousePathfinding(numbers));
                 }
-                
     }
 }
