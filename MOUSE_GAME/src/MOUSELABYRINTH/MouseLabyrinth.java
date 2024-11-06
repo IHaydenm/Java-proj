@@ -295,6 +295,10 @@ public void generatingMapSolutionFile(List <String> finalCorrectPaths){
                     correctPathFile.createNewFile();
                     myFileWriter = new FileWriter(correctPathFile);
                     myPrintWriter = new PrintWriter(myFileWriter);
+                    for(int i=0;i<finalCorrectPaths.size();i++){
+                        String finalWriter = finalCorrectPaths.get(i);
+                        myPrintWriter.println(finalWriter);
+                    }
             } catch (IOException e) {
                 e.printStackTrace();
             }finally{
