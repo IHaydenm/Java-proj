@@ -2,6 +2,7 @@ package MOUSELABYRINTH;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,7 +35,7 @@ public class MouseLabyrinth {
     int resetCounterL = 0;
     /*THIS VARIABLES ARE USED TO INDICATE THE CORRECT SET OF INSTRUCTIONS TO FOLLOW TO COMPLETE THE MAZE*/
     int rows, columns;
-    String[] finalCorrectPath;
+    List <String> finalCorrectPath = new ArrayList<>();
     public MouseLabyrinth(int rows, int columns){
         this.rows = rows;
         this.columns = columns;
@@ -195,14 +196,11 @@ public class MouseLabyrinth {
                     continue;
                 }
             }
-            int usefulValue=0;
             int j = 0;
             for(int k = 0;k<correctPath.length;k++){
                 if(correctPath[k]==down || correctPath[k]==up || correctPath[k]==right || correctPath[k]==left){
-                    usefulValue++;
-                    this.finalCorrectPath = new String[usefulValue];
-                    finalCorrectPath[j] = correctPath[k];
-                    System.out.println(j + ". " + finalCorrectPath[j]);/*DELETE AFTER TEST*/
+                    finalCorrectPath.add(correctPath[k]);
+                    System.out.println((j+1) + ". " + finalCorrectPath.get(j));/*DELETE AFTER TEST*/
                     j++;
                     try {
                         Thread.sleep(500);
@@ -214,39 +212,7 @@ public class MouseLabyrinth {
                     continue;
                 }
             }
-        String path = "C:/Users/katco/Documents/les javas/MOUSE_GAME/src/MOUSELABYRINTH/";
-        FileWriter myFileWriter = null;
-        PrintWriter myPrintWriter = null;
-        System.out.println("ESTAMOS GUARDANDO UN ARCHIVO.\tPARA GUARDARLO NECESITO UN NOMBRE, POR FAVOR ESCRIBELO A CONTINUACION: ");
-        Scanner sc = new Scanner(System.in);
-        String fileName = sc.nextLine() + ".txt";
-        File correctPathFile = new File(path, fileName);
-        if (correctPathFile.exists()) {
-            System.out.println("Ya existe un archivo");
-        } 
-         else {
-            System.out.println("Creando archivo");
-            try {
-                correctPathFile.createNewFile();
-                myFileWriter = new FileWriter(correctPathFile);
-                myPrintWriter = new PrintWriter(myFileWriter);
-                for(int i=0;i<finalCorrectPath.length;i++){
-                    System.out.print(finalCorrectPath[i]);
-                    myPrintWriter.println(finalCorrectPath[i]);
-                }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-        //close resources
-        try {
-            myFileWriter.close();
-            myPrintWriter.close();
-            sc.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
+            generatingMapSolutionFile(finalCorrectPath);
     return " ";
 }
 
@@ -312,4 +278,35 @@ public void resetFunc(){
     resetCounterL = 0;
     resetCounterR = 0;
 }/*MAIN CLASS KEY*/
+public void generatingMapSolutionFile(List <String> finalCorrectPaths){
+        String path = "C:/Users/katco/Documents/les javas/MOUSE_GAME/src/MOUSELABYRINTH/";
+        FileWriter myFileWriter = null;
+        PrintWriter myPrintWriter = null;
+        System.out.println("ESTAMOS GUARDANDO UN ARCHIVO.\tPARA GUARDARLO NECESITO UN NOMBRE, POR FAVOR ESCRIBELO A CONTINUACION: ");
+        Scanner sc = new Scanner(System.in);
+        String fileName = sc.nextLine() + ".txt";
+        File correctPathFile = new File(path, fileName);
+        if (correctPathFile.exists()) {
+            System.out.println("Ya existe un archivo");
+        } 
+        else {
+                System.out.println("Creando archivo");
+                try {
+                    correctPathFile.createNewFile();
+                    myFileWriter = new FileWriter(correctPathFile);
+                    myPrintWriter = new PrintWriter(myFileWriter);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally{
+            //close resources
+            try {
+                myFileWriter.close();
+                myPrintWriter.close();
+                sc.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            }
+        }
+    }
 }
