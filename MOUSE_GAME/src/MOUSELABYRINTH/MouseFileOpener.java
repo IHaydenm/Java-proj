@@ -1,13 +1,8 @@
 package MOUSELABYRINTH;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
-
-import javax.xml.crypto.Data;
 
 import java.util.*;
 public class MouseFileOpener {
