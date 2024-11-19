@@ -1,4 +1,4 @@
-package Proy_Final_Biblio;
+package Biblio;
 import java.util.*;
 
 
@@ -8,6 +8,9 @@ public class ProyectoFinal{
         int op = 0;
         Boolean keepsGoing = true;
         /*VARIABLES*/
+        /*USER OBJECT*/
+        Usuario myUsuario = new Usuario();
+        /*USER OBJECT*/
         while (keepsGoing) {
         /*THIS SECTION OF THE PROGRAM WILL ASK THE USER WHICH OPTION OF THE AVIABLE WILL HE USE*/
         System.out.println("BIENVENIDO A LA INTERFAZ DE LA BIBLIOTECA.\n\nESTE ES EL MENU DE OPCIONES: \n\n1. REVISAR SI EL USUARIO YA SE ENCUENTRA EN EL SISTEMA DE LA BIBLIOTECA\t\t2. ");
@@ -19,10 +22,10 @@ public class ProyectoFinal{
         }
         switch (op) {
             case 1:
-                Usuario myUsuario = new Usuario();
                 System.out.println(myUsuario.CheckForUser());
                 break;
-        
+            case 2:
+                break;
             default:
                 break;
         }
