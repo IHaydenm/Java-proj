@@ -6,10 +6,20 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-public class Usuario extends Prestamos{
+public class Libros extends Prestamos {
     /*VARIABLES*/
     Scanner sc = new Scanner(System.in);
+    String titulo = "1.- TITULO DEL LIBRO: ";
+    String autor = "2.- AUTOR: ";
+    String year = "3.- AÑO DE PUBLICACION DEL LIBRO: ";
+    String[] genero = new String[4];{
+        genero[0] = "epico";
+        genero[1] = "lirico";
+        genero[2] = "dramatico";
+        genero[3] = "didactico";
+    }
+    String genreTitle = "4.- GENERO: ";
+    String Isbn = "5.- ISBN: ";
     String yes = "si";
     String id;
     String name;
@@ -17,7 +27,7 @@ public class Usuario extends Prestamos{
     int op = 0;
     int wantsOut = 0;
     /*VARIABLES*/
-    public char CheckForUser(Boolean keepsGoing){
+    public char CheckForBook(Boolean keepsGoing){
         while (keepsGoing) {
             /*THIS SECTION OF THE PROGRAM WILL ASK THE USER TO INDICATE FOR WHICH ATRIBUTE SEARCH*/
             System.out.println("CHECAREMOS SI EL USUARIO ESTA EN EL SISTEMA.\tTENEMOS ESTAS OPCIONES PARA CHECAR POR EL USUARIO.\n\n1. BUSCAR POR NOMBRE\t 2. BUSCAR POR ID\t 3. BUSCAR POR TIPO DE USUARIO (ALUMNO O PROFESOR)\t4. ELIMINAR A UN USUARIO DEL SISTEMA\t5. REGRESAR AL MENU PRINCIPAL\n\nPARA SELECIONAR UNA OPCION ESCRIBE EL NUMERO DEL INDICE\tTU SELECION: ");
@@ -59,7 +69,7 @@ public class Usuario extends Prestamos{
                                     e.printStackTrace();
                                 }
                                 if(wantsOut!=1){
-                                    ModifyUserData(usersFile);
+                                    ModifyBookData(usersFile);
                                     getsOut = false;
                                 }/*IF BRACKETS*/
                                 else{
@@ -87,7 +97,7 @@ public class Usuario extends Prestamos{
                                 }
                                 if(wantsOut!=1){
                                     usersFile.createNewFile();
-                                    ModifyUserData(usersFile);
+                                    ModifyBookData(usersFile);
                                     getsOut = false;
                                 }/*IF BRACKETS*/
                                 else{
@@ -104,27 +114,34 @@ public class Usuario extends Prestamos{
                 case 2:
                     System.out.println("UN SEGUNDO POR FAVOR\n\n");
                     TimeOut();
-                    System.out.println("ESTAMOS REVISANDO A TRAVES DEL ID DEL USUARIO SI YA SE ENCUENTRA EN EL SISTEMA.");
+                    System.out.println("ESTAMOS REVISANDO A TRAVES DEL NOMBRE DEL AUTOR DEL LIBRO SI YA SE ENCUENTRA EN EL SISTEMA.");
+                    List <String> finalFilePath = new ArrayList<String>();
                     Boolean getsOut2 = true;
                     while(getsOut2){
                         TimeOut();
-                        System.out.print("POR FAVOR, A CONTINUACION PROPORCIONA EL ID DEL USUARIO: ");
+                        System.out.print("POR FAVOR, A CONTINUACION PROPORCIONA EL NOMBRE DEL AUTOR DE LIBRO: ");
                         sc = new Scanner(System.in);
-                        String idTransform = sc.nextLine();
-                        String tempIdString = "2. ID DEL USUARIO: " + idTransform;
-                        String finalUserFilePath = " ";
-                        File userIdPath = null;
-                        finalUserFilePath = CheckForUserId(tempIdString);
-                        if(finalUserFilePath!=" "){
-                            TimeOut();
-                            System.out.println("EL USUARIO YA HA ESTADO AQUI");
-                            TimeOut();
-                            userIdPath = new File(Prestamos.myPCPath, finalUserFilePath);
-                            GetUserData(userIdPath);
-                            System.out.println("QUIERES CAMBIAR DATOS DEL USUARIO? \tESCRIBE SI O NO: ");
-                            sc = new Scanner(System.in);
-                            String tempOption = sc.nextLine();
-                            String op2 = tempOption.toLowerCase();
+                        String authorNameTransform = sc.nextLine();
+                        String tempAuthorNameString = autor + authorNameTransform.toUpperCase();
+                        File bookAuthorPath = null;
+                        finalFilePath = CheckForBookYear(tempAuthorNameString);
+                        System.out.println("ESTOS SON LOS ARCHIVOS CON " + tempAuthorNameString + " CON AÑO DE PUBLICACION\n\n");
+                        for(int k =0;k<finalFilePath.size();k++){
+                           System.out.println((k+1) + ".- " + finalFilePath.get(k));
+                        }
+                        System.out.println("\nSELECCIONA UNO PARA REVISAR SUS CONTENIDOS: ");
+                        sc = new Scanner(System.in);
+                        int tempChoosing = sc.nextInt();
+                        String childFilePath = finalFilePath.get((tempChoosing-1));
+                        TimeOut();
+                        bookAuthorPath = new File(Prestamos.myPCPath, childFilePath);
+                        GetUserData(bookAuthorPath);
+                        TimeOut();
+                        System.out.println("QUIERES CAMBIAR LOS DATOS DEL LIBRO? \tESCRIBE SI O NO: ");
+                        sc = new Scanner(System.in);
+                        String tempOption = sc.nextLine();
+                        String op2 = tempOption.toLowerCase();
+                        if(bookAuthorPath.exists()){
                             if(op2.equals(yes)){
                                 /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
                                 System.out.println("\n\nEMPEZAREMOS A GUARDAR LOS DATOS.\tSI DESEAS VOLVER, ESCRIBE 1 EN EL TECLADO Y DA ENTER. SI DESEAS CONTINUAR ESCRIBE 0 Y DA ENTER: ");
@@ -135,7 +152,7 @@ public class Usuario extends Prestamos{
                                     e.printStackTrace();
                                 }
                                 if(wantsOut!=1){
-                                    ModifyUserData(userIdPath);
+                                    ModifyBookData(bookAuthorPath);
                                     getsOut2 = false;
                                 }/*IF BRACKETS*/
                                 else{
@@ -148,70 +165,44 @@ public class Usuario extends Prestamos{
                                 System.out.println("ESTAMOS REGRESANDO AL MENU, UN SEGUNDO");
                                 TimeOut();
                                 getsOut2 = false;
-                            }/*ELSE BRACKETS */
+                            }/*ELSE BRACKETS*/
                         }/*IF BRACKETS*/
-                        else{
-                            try{
+                            else{
                                 /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
-                                System.out.println("\n\nEL USUARIO NO HA ESTADO AQUI ANTES, VAMOS A CREAR UN PERFIL DE USUARIO: ");
-                                System.out.println("\n\nEMPEZAREMOS A GUARDAR LOS DATOS.\tSI DESEAS VOLVER, ESCRIBE 1 EN EL TECLADO Y DA ENTER. SI DESEAS CONTINUAR ESCRIBE 0 Y DA ENTER: ");
-                                try {
-                                    sc = new Scanner(System.in);
-                                    wantsOut = sc.nextInt();
-                                }catch(InputMismatchException e){
-                                    e.printStackTrace();
-                                }
-                                if(wantsOut!=1){
-                                    System.out.println("NECESITO UN PREELIMINAR DEL NOMBRE DEL USUARIO. POR FAVOR PROPORCIONA EL NOMBRE DEL USUARIO A CONTINUACION: ");
-                                    sc = new Scanner(System.in);
-                                    String tempUserNameString = sc.nextLine();
-                                    String userNameString = tempUserNameString.toLowerCase();
-                                    userIdPath = new File(Prestamos.myPCPath, userNameString + ".txt");
-                                    userIdPath.createNewFile();
-                                    ModifyUserData(userIdPath);
-                                    getsOut2 = false;
-                                }/*IF BRACKETS*/
-                                else{
-                                    System.out.println("REGRESANDO");
-                                    TimeOut();
-                                    break;
-                                }
-                        }catch(IOException e){
-                            e.printStackTrace();
-                        }
-                        }/*ELSE IF FILE DOES NOT EXISTS*/
+                                System.out.println("\n\nNO EXISTE UN LIBRO CON " + tempAuthorNameString + "COMO FECHA DE PUBLICACION EN EL SISTEMA\n\nREGRESANDO");
+                            }/*ELSE BRACKETS*/ 
                     }/*WHILE BRACKETS*/
                     break;
                 case 3:
                     System.out.println("UN SEGUNDO POR FAVOR\n\n");
                     TimeOut();
-                    System.out.println("ESTAMOS REVISANDO A TRAVES DEL TIPO DE USUARIO SI YA SE ENCUENTRA EN EL SISTEMA.");
+                    System.out.println("ESTAMOS REVISANDO A TRAVES DEL AÑO DEL LIBRO SI ESTE YA SE ENCUENTRA EN EL SISTEMA.");
                     Boolean getsOut3 = true;
                     while(getsOut3){
                         TimeOut();
-                        System.out.print("POR FAVOR, A CONTINUACION PROPORCIONA EL TIPO DEL USUARIO (ALUMNO/PROFESOR): ");
+                        System.out.print("POR FAVOR, A CONTINUACION PROPORCIONA AÑO DE PUBLICACION DEL LIBRO: ");
                         sc = new Scanner(System.in);
-                        String typeTransform = sc.nextLine();
-                        String tempTypeString = "3. ES ALUMNO O PROFESOR? " + typeTransform.toUpperCase();
-                        List <String> finalUserFilePath = new ArrayList<String>();
-                        File userIdPath = null;
-                        finalUserFilePath = CheckForUserType(tempTypeString);
-                        System.out.println("ESTOS SON LOS ARCHIVOS CON " + typeTransform.toUpperCase() + " COMO USUARIOS\n\n");
-                        for(int k =0;k<finalUserFilePath.size();k++){
-                           System.out.println((k+1) + ".- " + finalUserFilePath.get(k));
+                        String yearTransform = sc.nextLine();
+                        String tempYearString = year + yearTransform;
+                        List <String> finalBookFilePath = new ArrayList<String>();
+                        File bookYearPath = null;
+                        finalBookFilePath = CheckForBookYear(tempYearString);
+                        System.out.println("ESTOS SON LOS ARCHIVOS CON " + yearTransform + " CON AÑO DE PUBLICACION\n\n");
+                        for(int k =0;k<finalBookFilePath.size();k++){
+                           System.out.println((k+1) + ".- " + finalBookFilePath.get(k));
                         }
                         System.out.println("\nSELECCIONA UNO PARA REVISAR SUS CONTENIDOS: ");
                         sc = new Scanner(System.in);
                         int tempChoosing = sc.nextInt();
-                        String childFilePath = finalUserFilePath.get((tempChoosing-1));
+                        String childFilePath = finalBookFilePath.get((tempChoosing-1));
                             TimeOut();
-                            userIdPath = new File(Prestamos.myPCPath, childFilePath);
-                            GetUserData(userIdPath);
-                            System.out.println("QUIERES CAMBIAR DATOS DEL USUARIO? \tESCRIBE SI O NO: ");
+                            bookYearPath = new File(Prestamos.myPCPath, childFilePath);
+                            GetUserData(bookYearPath);
+                            System.out.println("QUIERES CAMBIAR LOS DATOS DEL LIBRO? \tESCRIBE SI O NO: ");
                             sc = new Scanner(System.in);
                             String tempOption = sc.nextLine();
                             String op2 = tempOption.toLowerCase();
-                            if(userIdPath.exists()){
+                            if(bookYearPath.exists()){
                                 if(op2.equals(yes)){
                                     /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
                                     System.out.println("\n\nEMPEZAREMOS A GUARDAR LOS DATOS.\tSI DESEAS VOLVER, ESCRIBE 1 EN EL TECLADO Y DA ENTER. SI DESEAS CONTINUAR ESCRIBE 0 Y DA ENTER: ");
@@ -222,7 +213,7 @@ public class Usuario extends Prestamos{
                                         e.printStackTrace();
                                     }
                                     if(wantsOut!=1){
-                                        ModifyUserData(userIdPath);
+                                        ModifyBookData(bookYearPath);
                                         getsOut3 = false;
                                     }/*IF BRACKETS*/
                                     else{
@@ -238,51 +229,25 @@ public class Usuario extends Prestamos{
                                 }/*ELSE BRACKETS*/
                             }/*IF BRACKETS*/
                             else{
-                                try{
-                                    /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
-                                    System.out.println("\n\nEL USUARIO NO HA ESTADO AQUI ANTES, VAMOS A CREAR UN PERFIL DE USUARIO: ");
-                                    System.out.println("\n\nEMPEZAREMOS A GUARDAR LOS DATOS.\tSI DESEAS VOLVER, ESCRIBE 1 EN EL TECLADO Y DA ENTER. SI DESEAS CONTINUAR ESCRIBE 0 Y DA ENTER: ");
-                                    try {
-                                        sc = new Scanner(System.in);
-                                        wantsOut = sc.nextInt();
-                                    }catch(InputMismatchException e){
-                                        e.printStackTrace();
-                                    }
-                                    if(wantsOut!=1){
-                                        System.out.println("NECESITO UN PREELIMINAR DEL NOMBRE DEL USUARIO. POR FAVOR PROPORCIONA EL NOMBRE DEL USUARIO A CONTINUACION: ");
-                                        sc = new Scanner(System.in);
-                                        String tempUserNameString = sc.nextLine();
-                                        String userNameString = tempUserNameString.toLowerCase();
-                                        userIdPath = new File(Prestamos.myPCPath, userNameString + ".txt");
-                                        userIdPath.createNewFile();
-                                        ModifyUserData(userIdPath);
-                                        getsOut3 = false;
-                                    }/*IF BRACKETS*/
-                                    else{
-                                        System.out.println("REGRESANDO");
-                                        TimeOut();
-                                        break;
-                                    }
-                            }catch(IOException e){
-                                e.printStackTrace();
-                            }
-                        }/*ELSE BRACKETS*/
+                                /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
+                                System.out.println("\n\nNO EXISTE UN LIBRO CON " + yearTransform + "COMO FECHA DE PUBLICACION EN EL SISTEMA\n\nREGRESANDO");
+                            }/*ELSE BRACKETS*/    
                     }/*WHILE BRACKETS*/
                     break;
                 case 4:
                 Boolean getsOut4 = true;
                 while(getsOut4){
-                    System.out.println("A CUAL DE LOS USUARIOS QUIERES BORRAR DEL SISTEMA?\n\n");
+                    System.out.println("A CUAL DE LOS LIBROS QUIERES BORRAR DEL SISTEMA?\n\n");
                     File userDataPath = new File (Prestamos.myPCPath);/*GETTING FILES FROM PARENT */
                     String[] ArchNames = userDataPath.list();
                     for(int i=0; i < ArchNames.length; i++){/*GIVING AN ARRAY THE NAMES FORM THE FILES INSIDE THE PARENT*/
                         System.out.println(i+1 + ". " + ArchNames[i]);/*LISTING FILES INSIDE REPOSITORY*/
                     } /*ERRASE AFTER TESTS*/
-                    System.out.println("ESTOS SON LOS ARCHIVOS. AQUELLOS QUE SON .TXT SON ARCHIVOS DE USUARIOS. POR FAVOR SELECCIONA UNO DE ESTOS, INSERTANDO EL INCISO QUE SE VE A LA IZQUIERDA DEL ARCHIVO");
+                    System.out.println("ESTOS SON LOS ARCHIVOS. AQUELLOS QUE SON .TXT E INDICAN 'LIBRO' SON LIBROS QUE SE ENCUENTRAN EN EL SISTEMA. POR FAVOR SELECCIONA UNO DE ESTOS, INSERTANDO EL INCISO QUE SE VE A LA IZQUIERDA DEL ARCHIVO");
                     sc = new Scanner(System.in);
                     int fileOption = sc.nextInt();
                     File fileErrasing = new File(Prestamos.myPCPath, ArchNames[(fileOption-1)]);
-                    getsOut4 = ErrasingUser(fileErrasing);
+                    getsOut4 = ErrasingBook(fileErrasing);
                 }/*WHILE BRACKETS*/
                     break;
                 case 5:
@@ -350,39 +315,58 @@ private void GetUserData(File userFile){
         }
     }
 }/*GET USER DATA BRACKETS*/
-private void ModifyUserData(File userFile){
+private void ModifyBookData(File userFile){
+    int chosenGenre = 0;
     PrintWriter myPrintWriter = null;
     FileWriter myFileWriter = null;
-    String askUserName = "1. NOMBRE DEL USUARIO: "; 
-    String askUserId = "2. ID DEL USUARIO: ";
-    String askUserType = "3. ES ALUMNO O PROFESOR? ";
-    List <String> userData = new ArrayList<String>();
+    List <String> bookData = new ArrayList<String>();
         System.out.println("\n\nCONTINUANDO");
         TimeOut();
-        System.out.println("\n\n"+ askUserName);
+        System.out.println("\n\n"+ titulo);
             sc = new Scanner(System.in);
-            String tempUserName = sc.nextLine();
-            String userName = askUserName + tempUserName.toUpperCase();
-            userData.add(userName); /*ADDING THE DATA TO A LIST */
+            String tempTitle = sc.nextLine();
+            String bookTitle = titulo + tempTitle.toUpperCase();
+            bookData.add(bookTitle); /*ADDING THE DATA TO A LIST*/
         System.out.println("GUARDANDO");
         TimeOut();
-        System.out.println("\n\n" + askUserId);
+        System.out.println("\n\n" + autor);
             sc = new Scanner(System.in);
-            String tempUserId = sc.nextLine();
-            String userId = askUserId + tempUserId.toUpperCase();
-            userData.add(userId); /*ADDING THE DATA TO A LIST */
+            String tempAuthor = sc.nextLine();
+            String bookAuthor = autor + tempAuthor.toUpperCase();
+            bookData.add(bookAuthor); /*ADDING THE DATA TO A LIST */
         System.out.println("GUARDANDO");
         TimeOut();
-        System.out.println("\n\n" + askUserType + "ESCRIBE ALUMNO O EN CUYO CASO PROFESOR: ");
+        System.out.println("\n\n" + year);
             sc = new Scanner(System.in);
-            String tempUserType = sc.nextLine();
-            String userType = askUserType + tempUserType.toUpperCase();
-            userData.add(userType); /*ADDING THE DATA TO A LIST */
+            String tempYear = sc.nextLine();
+            String bookYear = year + tempYear.toUpperCase();
+            bookData.add(bookYear); /*ADDING THE DATA TO A LIST */
+        System.out.println("ESTOS SON LOS GENEROS DE LIBRO DISPONIBLES EN EL SISTEMA\n\n");
+            for(int i = 0; i<4;i++){/*SPECIFING THE USER WHICH ARE THE AVIABLE GENRES FOR THE BOOKS IN THE SYSTEM*/
+                System.out.println((i+1) + ".- " + genero[i]);
+            } 
+            try {
+                System.out.println("PARA ELEGIR UN GENERO ESCRIBE EL INCISO QUE APARECE A LA IZQUIERDA DE ESTE: ");
+                sc = new Scanner(System.in);
+                chosenGenre = sc.nextInt(); 
+            } catch (InputMismatchException e) {
+                System.out.println("EL VALOR QUE ESPECIFICASTE NO ES VALIDO, INTENTA CON UN NUMERO DEL 1 AL 4 UNICAMENTE Y NO INSERTES TEXTO");
+            }
+            System.out.println("\n\n"+ genero[(chosenGenre-1)]);/*DELETE*/
+                String genre = genreTitle + genero[(chosenGenre-1)].toUpperCase();
+                bookData.add(genre); /*ADDING THE DATA TO A LIST */
+            System.out.println("GUARDANDO");
+            TimeOut();    
+            System.out.println("\n\n" + Isbn);
+            sc = new Scanner(System.in);
+            String tempIsbn = sc.nextLine();
+            String bookIsbn = Isbn + tempIsbn;
+            bookData.add(bookIsbn); /*ADDING THE DATA TO A LIST */
     try {
         myFileWriter = new FileWriter(userFile);
         myPrintWriter = new PrintWriter(myFileWriter);
-        for(int i=0;i<userData.size();i++){
-            String tempStringWriter = userData.get(i);
+        for(int i=0;i<bookData.size();i++){
+            String tempStringWriter = bookData.get(i);
             myPrintWriter.println(tempStringWriter);
             System.out.println(tempStringWriter+"\n");/*DELETE*/
         }
@@ -396,7 +380,7 @@ private void ModifyUserData(File userFile){
             System.out.println("NO SE PUDIERON ESCRIBIR LOS DATOS AL SISTEMA");
         }
     }
-}/*MODIFY USER DATA*/
+}/*MODIFY BOOK DATA*/
 private void TimeOut(){
     /*SLEEP TIMEOUT*/
     try {
@@ -471,7 +455,7 @@ private String CheckForUserId(String userId){
     }/*FOR CYCLE*/
     return tempFinalUserPath;
 }/*CHECK FOR USER ID*/
-private List <String> CheckForUserType(String userType){
+private List <String> CheckForBookYear(String userType){
     List <String> relevantFiles = new ArrayList <String>();
     File userFile = new File(Prestamos.myPCPath); 
     String[] fileArrayList = userFile.list();
@@ -539,7 +523,7 @@ private List <String> CheckForUserType(String userType){
     }/*FOR CYCLE*/
     return relevantFiles;
 }/*CHECK FOR USER TYPE*/
-private Boolean ErrasingUser(File userFile){
+private Boolean ErrasingBook(File userFile){
     Boolean out = true;
     GetUserData(userFile);
     System.out.println("ESTAS SEGURO DE QUE QUIERES BORRAR ESTE USUARIO DEL SISTEMA\n\nSI/NO: ");
@@ -558,4 +542,3 @@ private Boolean ErrasingUser(File userFile){
     return out;
 }/*CHECK FOR ERRASING USER*/
 }/*MAIN CLASS BRACKETS*/
-
