@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 public class Libros extends Prestamos {
     /*VARIABLES*/
     Scanner sc = new Scanner(System.in);
+    String book = "LIBRO ";
     String titulo = "1.- TITULO DEL LIBRO: ";
     String autor = "2.- AUTOR: ";
     String year = "3.- AÑO DE PUBLICACION DEL LIBRO: ";
@@ -30,7 +31,7 @@ public class Libros extends Prestamos {
     public char CheckForBook(Boolean keepsGoing){
         while (keepsGoing) {
             /*THIS SECTION OF THE PROGRAM WILL ASK THE USER TO INDICATE FOR WHICH ATRIBUTE SEARCH*/
-            System.out.println("CHECAREMOS SI EL USUARIO ESTA EN EL SISTEMA.\tTENEMOS ESTAS OPCIONES PARA CHECAR POR EL USUARIO.\n\n1. BUSCAR POR NOMBRE\t 2. BUSCAR POR ID\t 3. BUSCAR POR TIPO DE USUARIO (ALUMNO O PROFESOR)\t4. ELIMINAR A UN USUARIO DEL SISTEMA\t5. REGRESAR AL MENU PRINCIPAL\n\nPARA SELECIONAR UNA OPCION ESCRIBE EL NUMERO DEL INDICE\tTU SELECION: ");
+            System.out.println("CHECAREMOS SI EL LIBRO ESTA EN EL SISTEMA.\tTENEMOS ESTAS OPCIONES PARA CHECAR POR EL LIBRO.\n\n1. BUSCAR POR NOMBRE DEL LIBRO/AGREGAR LIBRO AL SISTEMA\t 2. BUSCAR POR NOMBRE DEL AUTOR\t 3. BUSCAR POR AÑO DE PUBLICACION\t4. BUSCAR POR GENERO.\n\n5. BUSCAR POR ISBN\t6. BORRAR UN LIBRO DEL SISTEMA\t7. REGRESAR AL MENU PRINCIPAL\n\nPARA SELECIONAR UNA OPCION ESCRIBE EL NUMERO DEL INDICE\tTU SELECION: ");
             try{
                 sc = new Scanner(System.in);
                 op = sc.nextInt();
@@ -41,20 +42,20 @@ public class Libros extends Prestamos {
                 case 1:
                     System.out.println("UN SEGUNDO POR FAVOR\n\n");
                     TimeOut();
-                    System.out.println("ESTAMOS REVISANDO A TRAVES DEL NOMBRE DEL USUARIO SI YA SE ENCUENTRA EN EL SISTEMA.");
+                    System.out.println("ESTAMOS REVISANDO A TRAVES DEL NOMBRE DEL LIBRO SI YA SE ENCUENTRA EN EL SISTEMA.");
                     Boolean getsOut = true;
                     while(getsOut){
                         TimeOut();
-                        System.out.print("POR FAVOR, A CONTINUACION PROPORCIONA EL NOMBRE DEL USUARIO: ");
+                        System.out.print("POR FAVOR, A CONTINUACION PROPORCIONA EL NOMBRE DEL LIBRO: ");
                         sc = new Scanner(System.in);
-                        String nameTransform = sc.nextLine();
-                        String tempNameString = nameTransform.toLowerCase() + ".txt";
-                        File usersFile = new File(Prestamos.myPCPath, tempNameString);   
-                        if(usersFile.exists()){
+                        String bookNameTransform = sc.nextLine();
+                        String tempBookNameString = book + bookNameTransform.toLowerCase() + ".txt";
+                        File bookFile = new File(Prestamos.myPCPath, tempBookNameString);   
+                        if(bookFile.exists()){
                             TimeOut();
-                            System.out.println("EL USUARIO YA HA ESTADO AQUI");
+                            System.out.println("ENCONTRE EL LIBRO");
                             TimeOut();
-                            GetUserData(usersFile);
+                            GetBookData(bookFile);
                             System.out.println("QUIERES CAMBIAR DATOS DEL USUARIO? \tESCRIBE SI O NO: ");
                             sc = new Scanner(System.in);
                             String tempOption = sc.nextLine();
@@ -69,7 +70,7 @@ public class Libros extends Prestamos {
                                     e.printStackTrace();
                                 }
                                 if(wantsOut!=1){
-                                    ModifyBookData(usersFile);
+                                    ModifyBookData(bookFile);
                                     getsOut = false;
                                 }/*IF BRACKETS*/
                                 else{
@@ -87,7 +88,7 @@ public class Libros extends Prestamos {
                         else{
                             try{
                                 /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
-                                System.out.println("\n\nEL USUARIO NO HA ESTADO AQUI ANTES, VAMOS A CREAR UN PERFIL DE USUARIO: ");
+                                System.out.println("\n\nEL LIBRO INGRESADO NO SE ENCUENTRA EN EL SISTEMA, VAMOS A GUARDAR SU INFORMACION EN EL SISTEMA: ");
                                 System.out.println("\n\nEMPEZAREMOS A GUARDAR LOS DATOS.\tSI DESEAS VOLVER, ESCRIBE 1 EN EL TECLADO Y DA ENTER. SI DESEAS CONTINUAR ESCRIBE 0 Y DA ENTER: ");
                                 try {
                                     sc = new Scanner(System.in);
@@ -96,8 +97,8 @@ public class Libros extends Prestamos {
                                     e.printStackTrace();
                                 }
                                 if(wantsOut!=1){
-                                    usersFile.createNewFile();
-                                    ModifyBookData(usersFile);
+                                    bookFile.createNewFile();
+                                    ModifyBookData(bookFile);
                                     getsOut = false;
                                 }/*IF BRACKETS*/
                                 else{
@@ -135,7 +136,7 @@ public class Libros extends Prestamos {
                         String childFilePath = finalFilePath.get((tempChoosing-1));
                         TimeOut();
                         bookAuthorPath = new File(Prestamos.myPCPath, childFilePath);
-                        GetUserData(bookAuthorPath);
+                        GetBookData(bookAuthorPath);
                         TimeOut();
                         System.out.println("QUIERES CAMBIAR LOS DATOS DEL LIBRO? \tESCRIBE SI O NO: ");
                         sc = new Scanner(System.in);
@@ -197,7 +198,7 @@ public class Libros extends Prestamos {
                         String childFilePath = finalBookFilePath.get((tempChoosing-1));
                             TimeOut();
                             bookYearPath = new File(Prestamos.myPCPath, childFilePath);
-                            GetUserData(bookYearPath);
+                            GetBookData(bookYearPath);
                             System.out.println("QUIERES CAMBIAR LOS DATOS DEL LIBRO? \tESCRIBE SI O NO: ");
                             sc = new Scanner(System.in);
                             String tempOption = sc.nextLine();
@@ -235,8 +236,133 @@ public class Libros extends Prestamos {
                     }/*WHILE BRACKETS*/
                     break;
                 case 4:
-                Boolean getsOut4 = true;
-                while(getsOut4){
+                    System.out.println("UN SEGUNDO POR FAVOR\n\n");
+                    TimeOut();
+                    System.out.println("ESTAMOS REVISANDO A TRAVES DEL GENERO DEL LIBRO SI ESTE YA SE ENCUENTRA EN EL SISTEMA.");
+                    Boolean getsOut4 = true;
+                    while(getsOut4){
+                        TimeOut();
+                        for(int i = 0; i<4;i++){/*SPECIFING THE USER WHICH ARE THE AVIABLE GENRES FOR THE BOOKS IN THE SYSTEM*/
+                            System.out.println((i+1) + ".- " + genero[i]);
+                        } 
+                        System.out.print("POR FAVOR, A CONTINUACION PROPORCIONA GENERO DEL LIBRO (ESCRIBE EL GENERO COMPLETO): ");
+                        sc = new Scanner(System.in);
+                        String genreTransform = sc.nextLine();
+                        String tempGenreTransform = genreTitle + genreTransform.toUpperCase();
+                        List <String> finalBookGenrePath = new ArrayList<String>();
+                        File bookGenrePath = null;
+                        finalBookGenrePath = CheckForBookYear(tempGenreTransform);
+                        System.out.println("ESTOS SON LOS ARCHIVOS CON " + tempGenreTransform + " CON AÑO DE PUBLICACION\n\n");
+                        for(int k =0;k<finalBookGenrePath.size();k++){
+                           System.out.println((k+1) + ".- " + finalBookGenrePath.get(k));
+                        }
+                        System.out.println("\nSELECCIONA UNO PARA REVISAR SUS CONTENIDOS: ");
+                        sc = new Scanner(System.in);
+                        int tempChoosing = sc.nextInt();
+                        String childFilePath = finalBookGenrePath.get((tempChoosing-1));
+                            TimeOut();
+                            bookGenrePath = new File(Prestamos.myPCPath, childFilePath);
+                            GetBookData(bookGenrePath);
+                            System.out.println("QUIERES CAMBIAR LOS DATOS DEL LIBRO? \tESCRIBE SI O NO: ");
+                            sc = new Scanner(System.in);
+                            String tempOption = sc.nextLine();
+                            String op2 = tempOption.toLowerCase();
+                            if(bookGenrePath.exists()){
+                                if(op2.equals(yes)){
+                                    /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
+                                    System.out.println("\n\nEMPEZAREMOS A GUARDAR LOS DATOS.\tSI DESEAS VOLVER, ESCRIBE 1 EN EL TECLADO Y DA ENTER. SI DESEAS CONTINUAR ESCRIBE 0 Y DA ENTER: ");
+                                    try {
+                                        sc = new Scanner(System.in);
+                                        wantsOut = sc.nextInt();
+                                    }catch(InputMismatchException e){
+                                        e.printStackTrace();
+                                    }
+                                    if(wantsOut!=1){
+                                        ModifyBookData(bookGenrePath);
+                                        getsOut4 = false;
+                                    }/*IF BRACKETS*/
+                                    else{
+                                        System.out.println("REGRESANDO");
+                                        TimeOut();
+                                        break;
+                                    }
+                                }/*IF BRACKETS*/
+                                else{
+                                    System.out.println("ESTAMOS REGRESANDO AL MENU, UN SEGUNDO");
+                                    TimeOut();
+                                    getsOut4 = false;
+                                }/*ELSE BRACKETS*/
+                            }/*IF BRACKETS*/
+                            else{
+                                /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
+                                System.out.println("\n\nNO EXISTE UN LIBRO CON " + genreTransform + "COMO FECHA DE PUBLICACION EN EL SISTEMA\n\nREGRESANDO");
+                            }/*ELSE BRACKETS*/    
+                    }/*WHILE BRACKETS*/
+                    break;
+                case 5:
+                    System.out.println("UN SEGUNDO POR FAVOR\n\n");
+                    TimeOut();
+                    System.out.println("ESTAMOS REVISANDO A TRAVES DEL ISBN DEL LIBRO SI ESTE YA SE ENCUENTRA EN EL SISTEMA.");
+                    Boolean getsOut5 = true;
+                    while(getsOut5){
+                        TimeOut();
+                        System.out.println("POR FAVOR, A CONTINUACION PROPORCIONA ISBN DEL LIBRO (ESCRIBE EL ISBN COMPLETO): ");
+                        sc = new Scanner(System.in);
+                        String isbnTransform = sc.nextLine();
+                        String tempIsbnTransform = Isbn + isbnTransform;
+                        List <String> finalBookIsbnPath = new ArrayList<String>();
+                        File bookIsbnPath = null;
+                        finalBookIsbnPath = CheckForBookYear(tempIsbnTransform);
+                        System.out.println("ESTOS SON LOS ARCHIVOS CON " + tempIsbnTransform + " CON AÑO DE PUBLICACION\n\n");
+                        for(int k =0;k<finalBookIsbnPath.size();k++){
+                            System.out.println((k+1) + ".- " + finalBookIsbnPath.get(k));
+                        }
+                        System.out.println("\nSELECCIONA UNO PARA REVISAR SUS CONTENIDOS: ");
+                        sc = new Scanner(System.in);
+                        int tempChoosing = sc.nextInt();
+                        String childFilePath = finalBookIsbnPath.get((tempChoosing-1));
+                            TimeOut();
+                            bookIsbnPath = new File(Prestamos.myPCPath, childFilePath);/*FINDING FILE PATH*/
+                            GetBookData(bookIsbnPath);
+                            if(bookIsbnPath.exists()){
+                                System.out.println("QUIERES CAMBIAR LOS DATOS DEL LIBRO? \tESCRIBE SI O NO: ");
+                                sc = new Scanner(System.in);
+                                String tempOption = sc.nextLine();
+                                String op2 = tempOption.toLowerCase();
+                                if(op2.equals(yes)){
+                                    /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
+                                    System.out.println("\n\nEMPEZAREMOS A GUARDAR LOS DATOS.\tSI DESEAS VOLVER, ESCRIBE 1 EN EL TECLADO Y DA ENTER. SI DESEAS CONTINUAR ESCRIBE 0 Y DA ENTER: ");
+                                    try {
+                                        sc = new Scanner(System.in);
+                                        wantsOut = sc.nextInt();
+                                    }catch(InputMismatchException e){
+                                        e.printStackTrace();
+                                    }
+                                    if(wantsOut!=1){
+                                        ModifyBookData(bookIsbnPath);
+                                        getsOut5 = false;
+                                    }/*IF BRACKETS*/
+                                    else{
+                                        System.out.println("REGRESANDO");
+                                        TimeOut();
+                                        break;
+                                    }
+                                }/*IF BRACKETS*/
+                                else{
+                                    System.out.println("ESTAMOS REGRESANDO AL MENU, UN SEGUNDO");
+                                    TimeOut();
+                                    getsOut5 = false;
+                                }/*ELSE BRACKETS*/
+                            }/*IF BRACKETS*/
+                            else{
+                                /*THIS SECTION WILL ASK THE USER TO ENTER THE DATA OF THE LIBRARY'S USER OR IN THE CASE THE PROGRAM USER WANTS TO GO BACK*/
+                                System.out.println("\n\nNO EXISTE UN LIBRO CON " + isbnTransform + "COMO FECHA DE PUBLICACION EN EL SISTEMA\n\nREGRESANDO");
+                            }/*ELSE BRACKETS*/    
+                    }/*WHILE BRACKETS*/
+                    break;
+                case 6:
+                Boolean getsOut6 = true;
+                while(getsOut6){
                     System.out.println("A CUAL DE LOS LIBROS QUIERES BORRAR DEL SISTEMA?\n\n");
                     File userDataPath = new File (Prestamos.myPCPath);/*GETTING FILES FROM PARENT */
                     String[] ArchNames = userDataPath.list();
@@ -247,10 +373,10 @@ public class Libros extends Prestamos {
                     sc = new Scanner(System.in);
                     int fileOption = sc.nextInt();
                     File fileErrasing = new File(Prestamos.myPCPath, ArchNames[(fileOption-1)]);
-                    getsOut4 = ErrasingBook(fileErrasing);
+                    getsOut6 = ErrasingBook(fileErrasing);
                 }/*WHILE BRACKETS*/
                     break;
-                case 5:
+                case 7:
                 keepsGoing = false;
                     break;
                 default:
@@ -259,7 +385,7 @@ public class Libros extends Prestamos {
         }/*MAIN WHILE BRACKETS*/
         return ' ';
 }/*CHEKINGFORUSER BRACKETS*/
-private void GetUserData(File userFile){
+private void GetBookData(File userFile){
     BufferedReader myBufferedReader = null;
     BufferedReader bufRead = null;
     System.out.println("VAMOS A MODIFICAR LOS DATOS DEL USUARIO:\n\n");
@@ -389,72 +515,6 @@ private void TimeOut(){
         e.printStackTrace();
     }
 }/*TIME OUT VOID*/
-private String CheckForUserId(String userId){
-    File userFile = new File(Prestamos.myPCPath); 
-    String[] fileArrayList = userFile.list();
-    BufferedReader myBufferedReader = null;
-    BufferedReader bufRead = null;
-    String tempFinalUserPath = " ";
-    for(int i=0; i<fileArrayList.length; i++){
-        File tempUserFile = new File(Prestamos.myPCPath, fileArrayList[i]);
-        String finalUserPath = " ";
-        try {
-            FileReader ReadingFile = new FileReader(tempUserFile);
-            bufRead = new BufferedReader(ReadingFile);
-            /*DECLARING UNTIL WHICH POINT DOES THE FILE HAS INFORMATION (OTHER THAN NULL)*/
-            boolean noInfo = true;
-            String tempInformationCheck = " ";
-            int rowCounter = 0;
-            while(noInfo){
-                if(tempInformationCheck==null){
-                    noInfo = false;
-                }/*IF BRACKETS*/
-                else{
-                    tempInformationCheck = bufRead.readLine();
-                    rowCounter++;
-                }/*ELSE BRACKETS*/
-            }/*INNER WHILE CYCLE*/
-            rowCounter--;
-            try {
-                /*READING THE INFORMATION FORM THE FILE*/
-                if(tempUserFile.exists()){
-                    System.out.println("BUSCANDO...\n");
-                    TimeOut();
-                }
-                else{
-                    tempUserFile.createNewFile();
-                }
-                FileReader myFileReader = new FileReader(tempUserFile);
-                myBufferedReader = new BufferedReader(myFileReader);
-                List <String> userData = new ArrayList<String>();
-                for(int j=0;j<rowCounter;j++){
-                        String tempLineReader = " ";
-                        tempLineReader = myBufferedReader.readLine().toString();
-                        userData.add(tempLineReader);
-                        if(userId.equals(userData.get(j))){
-                            finalUserPath = tempUserFile.getName();
-                            tempFinalUserPath = finalUserPath;
-                            j = rowCounter--;
-                            int l = fileArrayList.length;
-                            i = l--;
-                        }
-                }/*SECOND FOR CYCLE BRACKETS*/
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            try {
-                bufRead.close();
-                myBufferedReader.close();    
-            } catch (IOException e) {
-                System.out.println("HUBO UN ERROR AL LEER LOS DATOS");
-            }
-        }
-    }/*FOR CYCLE*/
-    return tempFinalUserPath;
-}/*CHECK FOR USER ID*/
 private List <String> CheckForBookYear(String userType){
     List <String> relevantFiles = new ArrayList <String>();
     File userFile = new File(Prestamos.myPCPath); 
@@ -525,8 +585,8 @@ private List <String> CheckForBookYear(String userType){
 }/*CHECK FOR USER TYPE*/
 private Boolean ErrasingBook(File userFile){
     Boolean out = true;
-    GetUserData(userFile);
-    System.out.println("ESTAS SEGURO DE QUE QUIERES BORRAR ESTE USUARIO DEL SISTEMA\n\nSI/NO: ");
+    GetBookData(userFile);
+    System.out.println("ESTAS SEGURO DE QUE QUIERES BORRAR ESTE LIBRO DEL SISTEMA\n\nSI/NO: ");
     sc = new Scanner(System.in);
     String optionTransform = sc.nextLine();
     String optionSel = optionTransform.toLowerCase();
@@ -537,7 +597,7 @@ private Boolean ErrasingBook(File userFile){
     }
     else{
         System.out.println("REGRESANDO...\n\n");
-        out = true;
+        out = false;
     }
     return out;
 }/*CHECK FOR ERRASING USER*/
