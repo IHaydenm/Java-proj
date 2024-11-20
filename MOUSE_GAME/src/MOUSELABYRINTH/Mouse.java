@@ -12,7 +12,7 @@ public class Mouse {
         int rows = 0;
         int columns = 0;
         String fileDataReading = " "; /*OPENING FILE WITH PARENT*/
-        File FileMapDir = new File("C:/Users/katco/Documents/les javas/MOUSE_GAME/src/MOUSELABYRINTH");/*OBTAINING THE INFORMATION COMING IN FORM SRC*/
+        File FileMapDir = new File("C:/Users/PC1/Documents/les javas gabinete/MOUSE_GAME/src/MOUSELABYRINTH/");/*OBTAINING THE INFORMATION COMING IN FORM SRC*/
         String[] ArchNames = FileMapDir.list();
         for(int i=0; i < ArchNames.length; i++){/*GIVING AN ARRAY THE NAMES FORM THE FILES INSIDE THE PARENT*/
             System.out.println(i+1 + ". " + ArchNames[i]);/*LISTING FILES INSIDE REPOSITORY*/
@@ -20,7 +20,7 @@ public class Mouse {
         System.out.println("ESTOS SON LOS ARCHIVOS\n\nPOR FAVOR ELIJE UN .TXT PARA TRABAJARLO COMO MAPA PARA EL RATON.\n\nTIENES QUE ESCRIBIR EL NUMERO DEL ARCHIVO QUE SE MUESTRA A LA IZQUIERDA DE SU NOMBRE.");
         try (Scanner sc = new Scanner(System.in)) {/*MAKING THE USER SELECT THE FILE INSIDE THE PARENT DIRECTORY */
             int op = sc.nextInt();
-                    File inFileMap = new File("C:/Users/katco/Documents/les javas/MOUSE_GAME/src/MOUSELABYRINTH/", ArchNames[op-1]);
+                    File inFileMap = new File("C:/Users/PC1/Documents/les javas gabinete/MOUSE_GAME/src/MOUSELABYRINTH/", ArchNames[op-1]);
                     if(inFileMap.exists()){/*SPECIFIED FILE EXISTS CONDITION */
                         System.out.println("EL ARCHIVO EXISTE");
                         /*FILE READER FOR VARIABLE BUFREAD*/
@@ -73,7 +73,6 @@ public class Mouse {
                         while(limit<tRows){
                             String tempLineReader = " ";
                                 tempLineReader = bufReadPrel.readLine().toString();
-                            
                                 numbers.add(tempLineReader);
                                 fileDataReading = numbers.get(limit);
                                 System.out.println(fileDataReading);
@@ -82,5 +81,11 @@ public class Mouse {
                             MouseLabyrinth myLabyrinth = new MouseLabyrinth(rows, columns);
                             System.out.println(myLabyrinth.MousePathfinding(numbers));
                 }
+                public class Mouse {
+    public static void main(String[] args) throws Exception {
+        System.out.println(MouseFileOpener.FileOpening());
+
     }
+}
+}
 }

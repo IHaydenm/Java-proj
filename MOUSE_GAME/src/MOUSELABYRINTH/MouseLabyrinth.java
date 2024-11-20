@@ -143,11 +143,11 @@ public class MouseLabyrinth {
                         resetCounterR = 0;
                         resetCounterL++;
                         System.out.println("NO PUDE MOVERME HACIA LA DERECHA INTENTARE MOVERME HACIA OTRA POSICION. ESTOY BUSCANDO OTRO CAMINO");
-                        try{
+                        /*try{
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
-                        }
+                        }*/
                         /*IF THE FINDER CAN GO TO THE LEFT */
                         if(aviableMap[spR][spC-1]==for0){
                             movingToTheLeft();
@@ -308,5 +308,18 @@ public void generatingMapSolutionFile(List <String> finalCorrectPaths){
             }
             }
         }
+public class MouseLabyrinth {
+    int[][] aviableMap;
+    int rows, columns;
+    public MouseLabyrinth(int rows, int columns){
+        this.rows = rows;
+        this.columns = columns;
+        this.aviableMap = new int[rows][columns];
     }
+    public String MousePathfinding(){
+        
+        return " ";
+    }
+}
+}
 }
