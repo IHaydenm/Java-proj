@@ -12,10 +12,13 @@ public class ProyectoFinal{
         /*USER OBJECT*/
         Usuario myUsuario = new Usuario();
         Libros myLibros = new Libros();
+        Prestamos myPrestamos =new Prestamos() {
+            
+        };
         /*USER OBJECT*/
         while (keepsGoing) {
         /*THIS SECTION OF THE PROGRAM WILL ASK THE USER WHICH OPTION OF THE AVIABLE WILL HE USE*/
-        System.out.println("BIENVENIDO A LA INTERFAZ DE LA BIBLIOTECA.\n\nESTE ES EL MENU DE OPCIONES: \n\n1. REVISAR SI EL USUARIO YA SE ENCUENTRA EN EL SISTEMA DE LA BIBLIOTECA\t\t2. REVISAR EL CATALOGO DE LIBROS");
+        System.out.println("BIENVENIDO A LA INTERFAZ DE LA BIBLIOTECA.\n\nESTE ES EL MENU DE OPCIONES: \n\n1. REVISAR SI EL USUARIO YA SE ENCUENTRA EN EL SISTEMA DE LA BIBLIOTECA\t\t2. REVISAR EL CATALOGO DE LIBROS\n\n3. ENTRAR AL SISTEMA DE PEDIDOS");
         try {
             sc = new Scanner(System.in);
             op = sc.nextInt();
@@ -30,7 +33,13 @@ public class ProyectoFinal{
             case 2:
                 goes = true;
                 System.out.println(myLibros.CheckForBook(goes));
+                break;
+            case 3:
+                goes = true;
+                System.out.println(myPrestamos.AsksForBook(goes));
+                break;
             default:
+            System.out.println("NO EXISTE UNA OPCION CON EL INDICE QUE INTRODUJO. INTENTE OTRA VEZ");
                 break;
         }
     } 
